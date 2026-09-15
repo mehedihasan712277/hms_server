@@ -95,6 +95,12 @@ const loginUser = async (payload: ILoginUserPayload) => {
         throw new Error("User is deleted");
     }
 
+    if (user.password === null && user.googleId !== null) {
+        throw new Error(
+            "User Already Has Account Registered With Google. Try To Login With Google.",
+        );
+    }
+
     const isPasswordMatched = await bcrypt.compare(
         password,
         user.password as string,
